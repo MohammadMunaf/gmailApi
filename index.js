@@ -6,11 +6,21 @@ app.set('view engine','ejs');
 const path=require('path')
 app.set('views',path.join(__dirname,'/views'));
 
-app.get('/',(req,res)=>{
+const methodOverride = require('method-override');
+const passport = require('passport');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(methodOverride('_methid'));
+
+
+
+app.get('/login',(req,res)=>{
     res.render('login');
 })
-app.post('/',(req,res)=>{
-
+app.post('/login',passport.authenticate('local', { failureRedirect: '/login' }),(req,res)=>{
+    const {email,password}=req.body;
+    console.log(email);
+    console.log(password);
 })
 
 
